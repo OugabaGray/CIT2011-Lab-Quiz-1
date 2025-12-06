@@ -1,0 +1,239 @@
+<!--
+    Ougaba Gray
+    ID: 2405837
+    Web Programming – Lab Quiz 1 
+    Class: Monday @ 3pm
+    Date: December 1, 2025
+  -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Web Programming Lab Quiz 1</title>
+    <link rel="stylesheet" href="./2405837_WP_LQ1_Mon@3pm.css" />
+  </head>
+  <body>
+    <header>
+      <div class="nav container">
+        <div class="brand">
+          <span class="logo">T_T</span>
+          <span>Gray's Card Rewards Calculator</span>
+        </div>
+        <nav>
+          <a href="#form">Form</a>
+          <a href="#results">Results</a>
+          <a href="#stored">Stored Data</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="hero" id="form">
+        <h1>Credit Card Cash Back Calculator</h1>
+        <p class="muted">
+          Enter the customer’s details, choose the credit card and service
+          purchase type, then calculate the cash back reward for the campaign.
+        </p>
+      </section>
+
+      <section class="cart-wrap">
+        <div class="cart-grid">
+          <!-- PART A – Input form -->
+          <form
+            id="rewardForm"
+            class="panel"
+            aria-label="Credit Card Reward Form"
+          >
+            <h2>Customer Information</h2>
+
+            <!-- PART A 1 – Customer First Name and Last Name -->
+            <!-- 1a & 1b: validation > 1 character and all form data required -->
+            <!-- 1c: JS disables these fields on blur and re-enables them on form reset -->
+            <div class="row-2">
+              <div>
+                <label class="label" for="firstName">First Name</label>
+                <input
+                  id="firstName"
+                  name="firstName"
+                  type="text"
+                  class="input"
+                  minlength="2"
+                  required
+                />
+              </div>
+              <div>
+                <label class="label" for="lastName">Last Name</label>
+                <input
+                  id="lastName"
+                  name="lastName"
+                  type="text"
+                  class="input"
+                  minlength="2"
+                  required
+                />
+              </div>
+            </div>
+
+            <!-- PART A 2 – Customer Email -->
+            <!-- Email must use gmail.com; show example message if format is wrong -->
+            <div>
+              <label class="label" for="email">Email Address</label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                class="input"
+                placeholder="name@gmail.com"
+                required
+              />
+              <small id="emailHelp" class="muted"></small>
+            </div>
+
+            <!-- PART A 3 – Statement Date (cannot be greater than today) -->
+            <div class="row-2">
+              <div>
+                <label class="label" for="statementDate">Statement Date</label>
+                <input
+                  id="statementDate"
+                  name="statementDate"
+                  type="date"
+                  class="input"
+                  required
+                />
+              </div>
+
+              <!-- PART A 4 – Account Number format 000-000-00 -->
+              <div>
+                <label class="label" for="accountNumber">Account Number</label>
+                <input
+                  id="accountNumber"
+                  name="accountNumber"
+                  type="text"
+                  class="input"
+                  placeholder="000-000-00"
+                  required
+                />
+              </div>
+            </div>
+
+            <!-- Credit Card Type from the problem table -->
+            <div class="row-2">
+              <div>
+                <label class="label" for="cardType">Credit Card Type</label>
+                <select id="cardType" name="cardType" class="select" required>
+                  <option value="">Select card type</option>
+                  <option value="S">SuperSaver (Code S)</option>
+                  <option value="P">PlatinumBlue (Code P)</option>
+                </select>
+              </div>
+
+              <!-- PART A 5 – Service Purchase Type (only one choice) -->
+              <div>
+                <span class="label">Service Purchase Type</span>
+                <div class="inline">
+                  <label class="check">
+                    <input
+                      type="radio"
+                      name="serviceType"
+                      value="Hotels"
+                      required
+                    />
+                    <span>Hotels</span>
+                  </label>
+                  <label class="check">
+                    <input
+                      type="radio"
+                      name="serviceType"
+                      value="Restaurants"
+                    />
+                    <span>Restaurants</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <!-- PART A 6 – Total Purchases: random 1.00–3000.00, User cannot access this field-->
+            <div>
+              <label class="label" for="totalPurchases"
+                >Total Purchases (US$)</label
+              >
+              <input
+                id="totalPurchases"
+                name="totalPurchases"
+                type="number"
+                class="input"
+                disabled
+              />
+            </div>
+
+            <p id="message" class="muted"></p>
+
+            <!-- PART B 5 – Required buttons -->
+            <div class="actions">
+              <!-- 5a – Calculate data -->
+              <button type="button" id="btnCalculate" class="btn">
+                Calculate
+              </button>
+
+              <!-- 5b – Output customer data and store in localStorage -->
+              <button type="button" id="btnSave" class="btn">
+                Save Customer
+              </button>
+
+              <!-- 5c – Reset the form data (also re-enables name fields) -->
+              <button type="reset" id="btnReset" class="btn">Reset Form</button>
+            </div>
+          </form>
+
+          <!-- PART B 4 & 7 – Results output area (DOM) -->
+          <section class="panel" id="results" aria-label="Calculated Results">
+            <h2>Calculated Cash Back Summary</h2>
+            <p class="muted">
+              This section is to show the customer's info after calculation.
+            </p>
+
+            <!-- Neat, meaningful presentation of the results -->
+            <table class="cart-table" aria-label="Customer Summary Table">
+              <caption>
+                Customer Summary
+              </caption>
+              <tbody>
+                <tr>
+                  <th scope="row">Customer Name</th>
+                  <td id="outName">–</td>
+                </tr>
+                <tr>
+                  <th scope="row">Statement Date</th>
+                  <td id="outDate">–</td>
+                </tr>
+                <tr>
+                  <th scope="row">Account Number</th>
+                  <td id="outAccount">–</td>
+                </tr>
+                <tr>
+                  <th scope="row">Service Purchase Type</th>
+                  <td id="outService">–</td>
+                </tr>
+                <tr>
+                  <th scope="row">Cash Back Amount</th>
+                  <td id="outCashBack">–</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+        </div>
+      </section>
+
+      <!-- PART B 1, 2 – Displays the stored  infro from localStorage -->
+      <section class="panel" id="stored" aria-label="Stored Local Storage Data">
+        <h2>Stored Data (localStorage key: 2405837)</h2>
+        <p class="muted">Shows record of last customer saved.</p>
+        <div id="storedData"></div>
+      </section>
+    </main>
+
+    <script src="./2405837_WP_LQ1_Mon@3pm.js"></script>
+  </body>
+</html>
